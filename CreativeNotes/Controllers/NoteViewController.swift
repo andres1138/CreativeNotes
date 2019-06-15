@@ -15,6 +15,7 @@ import UserNotificationsUI
 
 class NoteViewController: UIViewController, StoryboardBound {
     
+   
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -22,12 +23,15 @@ class NoteViewController: UIViewController, StoryboardBound {
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var noteImageView: UIImageView!
     
+    @IBOutlet var buttons: [UIButton]!
+    
     weak var coordinator: MainCoordinator?
     
     var managedObjectContext: NSManagedObjectContext?
     
     let imagePicker = UIImagePickerController()
     
+    var allItems = [UIView]()
     
     var note: Note? {
         didSet {
@@ -35,19 +39,15 @@ class NoteViewController: UIViewController, StoryboardBound {
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(showtools))
         setupNoteViewController()
         initSetDate()
-        
-        textViewStyles()
     }
     
     @IBAction func saveNote(_ sender: Any) {
-        
         
         if note != nil {
             saveEditedEntry()
@@ -70,10 +70,6 @@ class NoteViewController: UIViewController, StoryboardBound {
         picker.sourceType = .photoLibrary
         picker.delegate = self
         
-        
-        
-        
-        
         if photoAuthorization == .notDetermined {
             
             PHPhotoLibrary.requestAuthorization({status in
@@ -87,11 +83,8 @@ class NoteViewController: UIViewController, StoryboardBound {
             
         } else if photoAuthorization == .denied {
             
-            displayAlert(title: "Camera & Photos access denied", message: "If you decide to use the camera & photos, this app needs permission")
+            displayAlert(title: "Camera & Photos access denied", message: "Please grant access!")
         }
-        
-        
-        
     }
     
     
@@ -103,15 +96,14 @@ class NoteViewController: UIViewController, StoryboardBound {
             
             navigationController?.popViewController(animated: true)
         }
-        
-        
     }
     
     
     @IBAction func draw(_ sender: Any) {
-        
         coordinator?.drawVC()
     }
+ 
+    
     
     
     @IBAction func backToDetailVCFromDrawVC(segue: UIStoryboardSegue) {
@@ -125,12 +117,7 @@ class NoteViewController: UIViewController, StoryboardBound {
             }
         }
     }
-    
-    @objc func showtools() {
-        
-    }
-    
+  
     
 }
-
 

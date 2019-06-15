@@ -54,16 +54,15 @@ class DrawViewController: UIViewController, StoryboardBound {
         let image = renderViewToUIImage(uiview: mainDrawingArea)
         drawImageView.image = image
         
-        // action screen asking what user wishes to do
+        // saving image to photolibrary
         let activity = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(activity, animated: true)
     }
     
+    // save the image within the app not in your photos
     @IBAction func saveDrawingInternally(_ sender: Any) {
         let image = renderViewToUIImage(uiview: mainDrawingArea)
         drawImageView.image = image
-        
-        
     }
     
     func renderViewToUIImage(uiview: UIView) -> UIImage  {
